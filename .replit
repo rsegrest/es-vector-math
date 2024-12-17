@@ -1,0 +1,16 @@
+modules = ["nodejs-20", "web"]
+run = "tsc --build"
+
+[nix]
+channel = "stable-24_05"
+
+[[ports]]
+localPort = 5500
+externalPort = 80
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+# [deployment]
+# run = ["sh", "-c", "webpack serve"]

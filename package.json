@@ -1,0 +1,97 @@
+{
+  "name": "es-vector-math",
+  "version": "0.0.1",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./location": {
+      "import": "./dist/location/index.js",
+      "types": "./dist/location/index.d.ts"
+    },
+    "./motion": {
+      "import": "./dist/motion/index.js",
+      "types": "./dist/motion/index.d.ts"
+    },
+    "./timing": {
+      "import": "./dist/timing/index.js",
+      "types": "./dist/timing/index.d.ts"
+    },
+    "./tween": {
+      "import": "./dist/tween/index.js",
+      "types": "./dist/tween/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "index": [
+        "./dist/index.d.ts"
+      ],
+      "motion": [
+        "./dist/motion/index.d.ts"
+      ],
+      "location": [
+        "./dist/location/index.d.ts"
+      ],
+      "timing": [
+        "./dist/timing/index.d.ts"
+      ],
+      "tween": [
+        "./dist/tween/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "keywords": [
+    "motion",
+    "tween",
+    "motion-and-tween",
+    "animation",
+    "animation-library",
+    "p5js",
+    "p5-library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsegrest/motion-and-tween.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rsegrest/motion-and-tween/issues"
+  },
+  "homepage": "https://github.com/rsegrest/motion-and-tween#readme",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc",
+    "preview": "vite preview",
+    "watch": "tsc --watch",
+    "test": "tsc; cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --config ./jest.config.ts"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.2",
+    "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1"
+  },
+  "description": "Motion and Tween",
+  "author": {
+    "name": "Rick Segrest",
+    "email": "rsegrest77@gmail.com",
+    "url": "https://www.ricksegrest.com"
+  }
+}
