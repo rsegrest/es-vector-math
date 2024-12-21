@@ -94,7 +94,40 @@ export class Vector {
     crossProduct(v: Vector): any {
         return Vector.crossProduct(this,v);
     }
-
+    getPerspective(viewDistance:number) {
+        return Vector.getPerspective(viewDistance, this);
+    }
+    perspectiveProjection(p:number|null = null) {
+        if (p === null) p = Vector.getPerspective(300,this);
+        const x = this.x * p;
+        const y = this.y * p;
+        const z = 0;
+        return new Vector(x,y,z);
+    }
+    rotateX(angle:number) {
+        return Vector.rotateX(angle,this);
+    }
+    rotateY(angle:number) {
+        return Vector.rotateY(angle,this);
+    }
+    rotateZ(angle:number) {
+        return Vector.rotateZ(angle,this);
+    }
+    rotateXY(angleX:Angle, angleY:Angle) {
+        return Vector.rotateXY(angleX,angleY,this);
+    }
+    rotateXYZ(angleX:Angle, angleY:Angle, angleZ:Angle) {
+        return Vector.rotateXYZ(angleX,angleY,angleZ, this);
+    }
+    vectorRotateXByCosineAndSine(cosine:number, sine:number) {
+        return Vector.rotateXByCosineAndSine(cosine,sine,this);
+    }
+    vectorRotateYByCosineAndSine(cosine:number, sine:number) {
+        return Vector.rotateYByCosineAndSine(cosine,sine,this);
+    }
+    vectorRotateZByCosineAndSine(cosine:number, sine:number) {
+        return Vector.rotateZByCosineAndSine(cosine,sine,this);
+    }
     static equals(v:Vector, w:Vector) {
         if (v.dimensions === 3) v.x === w.x && v.y === w.y && v.z === w.z && v.dimensions === w.dimensions;
         return v.x === w.x && v.y === w.y && v.dimensions === w.dimensions;
@@ -166,6 +199,108 @@ export class Vector {
         }
         throw('Cross product requires 3D vectors');
     }
+    static getPerspective(viewDistance:number, v:Vector) {
+        return viewDistance / (v.z! + viewDistance);
+    }
+    static perspectiveProjection(p:number|null = null, v:Vector) {
+        if (p === null) p = Vector.getPerspective(300,v);
+        const x = v.x * p;
+        const y = v.y * p;
+        const z = 0;
+        return new Vector(x,y,z);
+    }
+    static expand2DVector(v:Vector) {
+        if (v.dimensions === 3) return v;
+        return new Vector(v.x,v.y,0);
+    }
+
+    static rotateX(angle:number, v:Vector) {
+        v = Vector.expand2DVector(v);
+        const ca = Math.cos(Angle.fromDegrees(angle).radians);
+        const sa = Math.sin(Angle.fromDegrees(angle).radians);
+        const newY = v.y * ca - v.z! * sa;
+        const newZ = v.y * sa + v.z! * ca;
+        return new Vector(v.x,newY,newZ);
+    }
+    static rotateXByCosineAndSine(
+        cosine:number, sine:number, v:Vector
+    ) {
+        v = Vector.expand2DVector(v);
+        const newY = v.y * cosine - v.z! * sine;
+        const newZ = v.y * sine + v.z! * cosine;
+        return new Vector(v.x,newY,newZ);
+    }
+
+    static rotateY(angle:number, v:Vector) {
+        v = Vector.expand2DVector(v);
+        const ca = Math.cos(Angle.fromDegrees(angle).radians);
+        const sa = Math.sin(Angle.fromDegrees(angle).radians);
+        const newX = v.x * ca + v.z! * sa;
+        const newZ = v.x * -sa + v.z! * ca;
+        return new Vector(newX,v.y,newZ);
+    }
+    static rotateYByCosineAndSine(
+        cosine:number, sine:number, v:Vector
+    ) {
+        v = Vector.expand2DVector(v);
+        const newX = v.x * cosine + v.z! * sine;
+        const newZ = v.x * -sine + v.z! * cosine;
+        return new Vector(newX,v.y,newZ);
+    }
+
+    static rotateZ(angle:number, v:Vector) {
+        v = Vector.expand2DVector(v);
+        const ca = Math.cos(Angle.fromDegrees(angle).radians);
+        const sa = Math.sin(Angle.fromDegrees(angle).radians);
+        const newX = v.x * ca - v.y * sa;
+        const newY = v.x * sa + v.y * ca;
+        return new Vector(newX,newY,v.z);
+    }
+    static rotateZByCosineAndSine(
+        cosine:number, sine:number, v:Vector
+    ) {
+        v = Vector.expand2DVector(v);
+        const newX = v.x * cosine - v.y! * sine;
+        const newY = v.x * sine + v.y! * cosine;
+        return new Vector(newX,newY,v.z);
+    }
+
+    static rotateXY(angleX:Angle, angleY:Angle, v:Vector) {
+        v = Vector.expand2DVector(v);
+        const ca = Math.cos(angleX.radians);
+        const sa = Math.sin(angleX.radians);
+        const cb = Math.cos(angleY.radians);
+        const sb = Math.sin(angleY.radians);
+
+        // x-axis rotation
+        const y = v.y * ca - v.z! * sa;
+        const rz1 = v.y * sa + v.z! * ca;
+        const z = v.x * -sb + rz1 * cb;
+        const x = v.x * cb + rz1 * sb;
+        return new Vector(x,y,z);
+    }
+    static rotateXYZ(angleX:Angle, angleY:Angle, angleZ:Angle, v:Vector) {
+        const ca = Math.cos(angleX.radians);
+        const sa = Math.sin(angleX.radians);
+        const cb = Math.cos(angleY.radians);
+        const sb = Math.sin(angleY.radians);
+        const cc = Math.cos(angleZ.radians);
+        const sc = Math.sin(angleZ.radians);
+
+        // x-axis rotation
+        const ry = v.y * ca - v.z! * sa;
+        const rz = v.y * sa + v.z! * ca;
+        // y-axis rotation
+        const rx = v.x * cb + rz * sb;
+        const newZ = v.x * -sb + rz * cb;
+        // z-axis rotation
+        const newX = rx * cc - ry * sc;
+        const newY = rx * sc + ry * cc;
+        
+        return new Vector(newX,newY,newZ);
+    }
+
+
 }
 export default Vector;
 
@@ -279,6 +414,46 @@ describe("Vector", () => {
             expect(v.toString()).toBe('Vector3D[4, 0, 0]');
             const w = new Vector(0,0,-3);
             expect(Vector.calculateAngleBetween(v,w).degrees).toBe(Angle.fromDegrees(90).degrees);
+        })
+        it('should get perspective of a 3D vector', () => {
+            const pointA = new Vector(50,20,40);
+            const perspective = pointA.getPerspective(300);
+            expect(perspective).toBeCloseTo(0.8824);
+        });
+
+        it('should project a 3D vector to 2D', () => {
+            const pointA = new Vector(50,20,40);
+            const projection = pointA.perspectiveProjection();
+            expect(projection.x).toBeCloseTo(44.1176)
+            expect(projection.y).toBeCloseTo(17.6471)
+            expect(projection.z).toBeCloseTo(0);
+        });
+
+        it('should rotate a 3D vector', () => {
+            const p = new Vector(1,4,7);
+            const rotatedVector = p.rotateX(180);
+            expect(rotatedVector.x).toBeCloseTo(1);
+            expect(rotatedVector.y).toBeCloseTo(-4);
+            expect(rotatedVector.z).toBeCloseTo(-7);
+        });
+
+        it('should rotate by cosine & sine', () => {
+            const p = new Vector(1,4,7);
+            const cosine = Math.cos(Angle.fromDegrees(180).radians);
+            const sine = Math.sin(Angle.fromDegrees(180).radians);
+            
+            const rotatedVector = p.vectorRotateXByCosineAndSine(cosine, sine);
+            expect(rotatedVector.x).toBeCloseTo(1);
+            expect(rotatedVector.y).toBeCloseTo(-4);
+            expect(rotatedVector.z).toBeCloseTo(-7);
+        })
+        
+        it('should rotate a 3D vector on XYZ axes', () => {
+            const p = new Vector(8,0,0);
+            const rotatedVector = p.rotateXYZ(Angle.fromDegrees(45),Angle.fromDegrees(45),Angle.fromDegrees(45));
+            expect(rotatedVector.x).toBeCloseTo(4);
+            expect(rotatedVector.y).toBeCloseTo(4);
+            expect(rotatedVector.z).toBeCloseTo(-5.657);
         })
     });
 });
