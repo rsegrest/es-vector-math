@@ -1,6 +1,6 @@
 {
   "name": "es-vector-math",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "type": "module",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -45,12 +45,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rsegrest/es-vector.git"
+    "url": "git+https://github.com/rsegrest/es-vector-math.git"
   },
   "bugs": {
-    "url": "https://github.com/rsegrest/es-vector/issues"
+    "url": "https://github.com/rsegrest/es-vector-math/issues"
   },
-  "homepage": "https://github.com/rsegrest/es-vector#readme",
+  "homepage": "https://github.com/rsegrest/es-vector-math#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc",
