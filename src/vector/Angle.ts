@@ -34,7 +34,7 @@ export class Angle {
         return Math.cos(this.radians);
     }
     toString() {
-        return `Angle(${this.radians} rad or ${this.degrees}°)`;
+        return `Angle( ${(this.radians/Math.PI)}π rad -or- ${this.degrees}°)`;
     }
 }
 export default Angle;
