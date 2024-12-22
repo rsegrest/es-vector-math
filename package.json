@@ -5,28 +5,17 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "dist/vector"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./location": {
-      "import": "./dist/location/index.js",
-      "types": "./dist/location/index.d.ts"
-    },
-    "./motion": {
-      "import": "./dist/motion/index.js",
-      "types": "./dist/motion/index.d.ts"
-    },
-    "./timing": {
-      "import": "./dist/timing/index.js",
-      "types": "./dist/timing/index.d.ts"
-    },
-    "./tween": {
-      "import": "./dist/tween/index.js",
-      "types": "./dist/tween/index.d.ts"
+    "./vector": {
+      "import": "./dist/vector/index.js",
+      "types": "./dist/vector/index.d.ts"
     }
   },
   "typesVersions": {
@@ -34,25 +23,21 @@
       "index": [
         "./dist/index.d.ts"
       ],
-      "motion": [
-        "./dist/motion/index.d.ts"
-      ],
-      "location": [
-        "./dist/location/index.d.ts"
-      ],
-      "timing": [
-        "./dist/timing/index.d.ts"
-      ],
-      "tween": [
-        "./dist/tween/index.d.ts"
+      "vector": [
+        "./dist/vector/index.d.ts"
       ]
     }
   },
   "sideEffects": false,
   "keywords": [
     "motion",
-    "tween",
-    "motion-and-tween",
+    "vector",
+    "math",
+    "trigonometry",
+    "sine",
+    "cosine",
+    "radians",
+    "degrees",
     "animation",
     "animation-library",
     "p5js",
@@ -60,12 +45,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rsegrest/motion-and-tween.git"
+    "url": "git+https://github.com/rsegrest/es-vector.git"
   },
   "bugs": {
-    "url": "https://github.com/rsegrest/motion-and-tween/issues"
+    "url": "https://github.com/rsegrest/es-vector/issues"
   },
-  "homepage": "https://github.com/rsegrest/motion-and-tween#readme",
+  "homepage": "https://github.com/rsegrest/es-vector#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc",
@@ -88,7 +73,7 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.1"
   },
-  "description": "Motion and Tween",
+  "description": "ES Vector Math is a library for working with vectors in JavaScript or TypeScript.",
   "author": {
     "name": "Rick Segrest",
     "email": "rsegrest77@gmail.com",
