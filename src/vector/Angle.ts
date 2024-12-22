@@ -24,7 +24,6 @@ export class Angle {
         return Math.cos(Angle.fromDegrees(deg).radians)
     }
     static atan2Degrees(y:number,x:number) {
-        // return Math.atan2(Angle.fromDegrees())
         return Math.atan2(y,x) * (180/Math.PI);
     }
     sin() {
@@ -32,6 +31,9 @@ export class Angle {
     }
     cos() {
         return Math.cos(this.radians);
+    }
+    tan() {
+        return Math.tan(this.radians);
     }
     toString() {
         return `Angle( ${(this.radians/Math.PI)}π rad -or- ${this.degrees}°)`;
