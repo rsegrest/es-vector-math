@@ -1,0 +1,82 @@
+{
+  "name": "es-vector-math",
+  "version": "0.0.4",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "dist/vector"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./vector": {
+      "import": "./dist/vector/index.js",
+      "types": "./dist/vector/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "index": [
+        "./dist/index.d.ts"
+      ],
+      "vector": [
+        "./dist/vector/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "keywords": [
+    "motion",
+    "vector",
+    "math",
+    "trigonometry",
+    "sine",
+    "cosine",
+    "radians",
+    "degrees",
+    "animation",
+    "animation-library",
+    "p5js",
+    "p5-library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsegrest/es-vector-math.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rsegrest/es-vector-math/issues"
+  },
+  "homepage": "https://github.com/rsegrest/es-vector-math#readme",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc",
+    "preview": "vite preview",
+    "watch": "tsc --watch",
+    "test": "tsc; cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --config ./jest.config.ts"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.2",
+    "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1"
+  },
+  "description": "ES Vector Math is a library for working with vectors in JavaScript or TypeScript.",
+  "author": {
+    "name": "Rick Segrest",
+    "email": "rsegrest77@gmail.com",
+    "url": "https://www.ricksegrest.com"
+  }
+}
