@@ -10,7 +10,7 @@ export class VectorMath {
         if (v.dimensions === 3 && w.dimensions === 3) return new Vector((v.x+w.x),(v.y+w.y),(v.z!+w.z!));
         return new Vector((v.x+w.x),(v.y+w.y));
     }
-    static minus(v:Vector, w:Vector) {
+    static subtract(v:Vector, w:Vector) {
         if (v.dimensions === 3 && w.dimensions === 3) return new Vector((v.x-w.x),(v.y-w.y),(v.z!-w.z!));
         return new Vector((v.x-w.x),(v.y-w.y));
     }

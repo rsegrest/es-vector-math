@@ -22,8 +22,8 @@ export class Vector {
   add(v:Vector) {
       return VectorMath.add(this,v);
   }
-  minus(v:Vector) {
-      return VectorMath.minus(this,v);
+  subtract(v:Vector) {
+      return VectorMath.subtract(this,v);
   }
   equals(v:Vector) {
       return VectorMath.equals(this,v)
