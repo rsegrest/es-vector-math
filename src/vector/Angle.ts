@@ -33,5 +33,8 @@ export class Angle {
     cos() {
         return Math.cos(this.radians);
     }
+    toString() {
+        return `Angle(${this.radians} rad or ${this.degrees}°)`;
+    }
 }
 export default Angle;
