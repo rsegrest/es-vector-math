@@ -37,7 +37,7 @@ describe("Vector", () => {
         it("should check for perpendicularity (_0713 2)", () => {
             let v = new Vector(0,5);
             let w = new Vector(-5,0);
-            expect(VectorMath.isPerpendicular(v,w)).toBe(true);
+            expect(VectorMath.arePerpendicular(v,w)).toBe(true);
         })
         it("should find angle between", () => {
             let v = new Vector(4,0);

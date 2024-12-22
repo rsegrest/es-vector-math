@@ -43,15 +43,23 @@ export class Vector {
   setAngleDegrees(angleDegrees:number) {
       return VectorMath.setAngleDegrees(angleDegrees,this);
   }
+  setAngleRadians(angleRadians:number) {
+      return VectorMath.setAngleRadians(angleRadians,this);
+  }
+  getAngleDegrees() {
+      return VectorMath.getAngleDegrees(this);
+  }
+  getAngleRadians() {
+      return VectorMath.getAngleRadians(this);
+  }
   dotProduct(v:Vector) {
       return VectorMath.dotProduct(this,v);
   }
   getNormal() {
       return VectorMath.getNormal(this);
   }
-
-  isPerpendicular(v:Vector) {
-      return VectorMath.dotProduct(this,v) === 0;
+  isPerpendicularTo(v:Vector) {
+      return VectorMath.arePerpendicular(this,v);
   }
   calculateAngleBetween(v:Vector) {
       return VectorMath.calculateAngleBetween(this,v);

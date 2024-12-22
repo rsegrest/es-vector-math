@@ -40,8 +40,18 @@ export class VectorMath {
             Math.round((r*Math.sin(Angle.fromDegrees(angleDegrees).radians))*1000)/1000
         )
     }
+    static setAngleRadians(angleRadians:number, v:Vector) {
+        const r = v.getLength();
+        return new Vector(
+            Math.round((r*Math.cos(angleRadians))*1000)/1000,
+            Math.round((r*Math.sin(angleRadians))*1000)/1000
+        )
+    }
     static getAngleDegrees(v:Vector) {
         return Angle.atan2Degrees(v.y,v.x);
+    }
+    static getAngleRadians(v:Vector) {
+        return Math.atan2(v.y,v.x);
     }
     
     static dotProduct(v:Vector,w:Vector) {
@@ -49,10 +59,10 @@ export class VectorMath {
         return (v.x*w.x)+(v.y*w.y);
     }
     static getNormal(v:Vector) {
-        // TODO: 3D version
+        if (v.dimensions === 3) return new Vector(-v.y,v.x,v.z); // correct?
         return new Vector(-v.y,v.x);
     }
-    static isPerpendicular(v:Vector,w:Vector) {
+    static arePerpendicular(v:Vector,w:Vector) {
         return VectorMath.dotProduct(v,w) === 0;
     }
     static calculateAngleBetween(v:Vector,w:Vector) {
@@ -63,12 +73,12 @@ export class VectorMath {
         }
         return Angle.fromRadians(Math.acos(VectorMath.dotProduct(v,w)/(v.getLength()*w.getLength())));
     }
-    static crossProduct(v: Vector, w: Vector): any {
-        if (v.dimensions === 3 && w.dimensions === 3) {
+    static crossProduct(v3D: Vector, w3D: Vector): any {
+        if (v3D.dimensions === 3 && w3D.dimensions === 3) {
             return new Vector(
-                v.y*w.z! - v.z!*w.y,
-                v.z!*w.x - v.x*w.z!,
-                v.x*w.y - v.y*w.x
+                v3D.y*w3D.z! - v3D.z!*w3D.y,
+                v3D.z!*w3D.x - v3D.x*w3D.z!,
+                v3D.x*w3D.y - v3D.y*w3D.x
             )
         }
         throw('Cross product requires 3D vectors');
