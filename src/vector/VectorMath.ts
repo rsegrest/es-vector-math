@@ -1,8 +1,11 @@
 import Angle from './Angle.js';
+import Point from './Point.js';
 import Vector from './Vector.js';
 export class VectorMath {
 
-    static equals(v:Vector, w:Vector) {
+    static equals(v:Vector|Point, w:Vector|Point) {
+        if (v instanceof Point && w instanceof Vector) { return false; }
+        if (v instanceof Vector && w instanceof Point) { return false; }
         if (v.dimensions === 3) v.x === w.x && v.y === w.y && v.z === w.z && v.dimensions === w.dimensions;
         return v.x === w.x && v.y === w.y && v.dimensions === w.dimensions;
     }
@@ -18,18 +21,22 @@ export class VectorMath {
         if (v.dimensions === 3) return new Vector(-1*v.x, -1*v.y, -1*v.z!)
         return new Vector(-1*v.x, -1*v.y);
     }
-    static scale(scalar:number, v:Vector) {
-        if (v.dimensions === 3) return new Vector(scalar*v.x, scalar*v.y, scalar*v.z!);
+    static scale(scalar:number, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 3) {
+            if (v instanceof Point) return new Point(scalar*v.x, scalar*v.y, scalar*v.z!)
+            return new Vector(scalar*v.x, scalar*v.y, scalar*v.z!)
+        };
+        if (v instanceof Point) return new Point(scalar*v.x, scalar*v.y)
         return new Vector(scalar*v.x, scalar*v.y);
     }
     static getLength(v:Vector):number {
         if (v.dimensions === 3) return Math.sqrt(Math.pow(v.x,2)+Math.pow(v.y,2)+Math.pow(v.z!,2))
         return Math.sqrt(Math.pow(v.x,2)+Math.pow(v.y,2))
     }
-    static setLength(length:number, v:Vector) {
+    static setLength(length:number, v:Vector):Vector {
         const r = v.getLength();
         let scaled:Vector;
-        if (r) scaled = v.scale(length / r);
+        if (r) scaled = v.scale(length / r) as Vector;
         else scaled = new Vector(length, v.y, v.z as number);
         return scaled;
     }
@@ -93,64 +100,94 @@ export class VectorMath {
         const z = 0;
         return new Vector(x,y,z);
     }
+    static expand2D(v:Vector|Point) {
+        if (v instanceof Point) {
+            return new Point(v.x,v.y,0);
+        } else {
+            return new Vector(v.x,v.y,0);
+        }
+    }
     static expand2DVector(v:Vector) {
         if (v.dimensions === 3) return v;
         return new Vector(v.x,v.y,0);
     }
-    
-    static rotateX(angle:Angle, v:Vector) {
-        v = VectorMath.expand2DVector(v);
+    static expand2DPoint(p:Point) {
+        if (p.dimensions === 3) return new Point(p.x,p.y,p.z!);
+        return new Point(p.x,p.y,0);
+    }
+    static rotateX(angle:Angle, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const ca = angle.cos();
         const sa = angle.sin();
+        
         const newY = v.y * ca - v.z! * sa;
         const newZ = v.y * sa + v.z! * ca;
+        if (v instanceof Point) {
+            return new Point(v.x,newY,newZ);
+        } 
         return new Vector(v.x,newY,newZ);
+        
     }
     static rotateXByCosineAndSine(
-        cosine:number, sine:number, v:Vector
-    ) {
-        v = VectorMath.expand2DVector(v);
+        cosine:number, sine:number, v:Vector|Point
+    ):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const newY = v.y * cosine - v.z! * sine;
         const newZ = v.y * sine + v.z! * cosine;
+        if (v instanceof Point) {
+            return new Point(v.x,newY,newZ);
+        } 
         return new Vector(v.x,newY,newZ);
     }
     
-    static rotateY(angle:Angle, v:Vector) {
-        v = VectorMath.expand2DVector(v);
+    static rotateY(angle:Angle, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const ca = angle.cos();
         const sa = angle.sin();
         const newX = v.x * ca + v.z! * sa;
         const newZ = v.x * -sa + v.z! * ca;
+        if (v instanceof Point) {
+            return new Point(newX,v.y,newZ);
+        }
         return new Vector(newX,v.y,newZ);
     }
     static rotateYByCosineAndSine(
-        cosine:number, sine:number, v:Vector
-    ) {
-        v = VectorMath.expand2DVector(v);
+        cosine:number, sine:number, v:Vector|Point
+    ):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const newX = v.x * cosine + v.z! * sine;
         const newZ = v.x * -sine + v.z! * cosine;
+        if (v instanceof Point) {
+            return new Point(newX,v.y,newZ);
+        }
         return new Vector(newX,v.y,newZ);
     }
     
-    static rotateZ(angle:Angle, v:Vector) {
-        v = VectorMath.expand2DVector(v);
+    static rotateZ(angle:Angle, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const ca = angle.cos();
         const sa = angle.sin();
         const newX = v.x * ca - v.y * sa;
         const newY = v.x * sa + v.y * ca;
+        if (v instanceof Point) {
+            return new Point(newX,newY,v.z);
+        }
         return new Vector(newX,newY,v.z);
     }
     static rotateZByCosineAndSine(
-        cosine:number, sine:number, v:Vector
-    ) {
-        v = VectorMath.expand2DVector(v);
+        cosine:number, sine:number, v:Vector|Point
+    ):Point|Vector {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const newX = v.x * cosine - v.y! * sine;
         const newY = v.x * sine + v.y! * cosine;
+        if (v instanceof Point) {
+            return new Point(newX,newY,v.z);
+        } 
         return new Vector(newX,newY,v.z);
     }
     
-    static rotateXY(angleX:Angle, angleY:Angle, v:Vector) {
-        v = VectorMath.expand2DVector(v);
+    static rotateXY(angleX:Angle, angleY:Angle, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const ca = angleX.cos();
         const sa = angleX.sin();
         const cb = angleY.cos();
@@ -161,9 +198,13 @@ export class VectorMath {
         const rz1 = v.y * sa + v.z! * ca;
         const z = v.x * -sb + rz1 * cb;
         const x = v.x * cb + rz1 * sb;
+        if (v instanceof Point) {
+            return new Point(x,y,z);
+        } 
         return new Vector(x,y,z);
     }
-    static rotateXYZ(angleX:Angle, angleY:Angle, angleZ:Angle, v:Vector) {
+    static rotateXYZ(angleX:Angle, angleY:Angle, angleZ:Angle, v:Vector|Point):Vector|Point {
+        if (v.dimensions === 2) { v = VectorMath.expand2D(v); }
         const ca = angleX.cos();
         const sa = angleX.sin();
         const cb = angleY.cos();
@@ -180,7 +221,10 @@ export class VectorMath {
         // z-axis rotation
         const newX = rx * cc - ry * sc;
         const newY = rx * sc + ry * cc;
-        
+
+        if (v instanceof Point) {
+            return new Point(newX,newY,newZ);
+        } 
         return new Vector(newX,newY,newZ);
     }
 }
